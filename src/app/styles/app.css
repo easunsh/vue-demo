@@ -1,0 +1,21 @@
+button {
+    margin: 3px;
+}
+
+.menu {
+   display: flex;
+   gap: 16px; 
+  
+}
+
+.menu-item {
+
+    float: left;
+   cursor: pointer;
+   margin-right: 10px;
+
+}
+
+.active {   
+   color: palevioletred; 
+}
