@@ -1,32 +1,9 @@
 <template>
-    {{ title }}
-    <hr />
-<UserProfile />
-
-    <hr />
-   组件2种写法,查看源代码  监听，@tap @init是子组件传过来的，父组件绑定后，执行自己的方法。<hr />
-<!-- <AppButton text="提交" 
-@tap="onTapAppButton"
-@init="onInitAppButton"
-></AppButton> -->
-
-<!---使用插槽 可以在标签里直接写提交 不写text="提交"，但onTapAppButton测试会用默认的子组件里的default 的text '按钮'-->
-<AppButton text="提交" 
-@tap="onTapAppButton"
-@init="onInitAppButton"
->提交</AppButton>
-
-<AppButton />
-
-<app-button>ok</app-button>
-
-<AppDemoButton></AppDemoButton>
+{{ title }}
 </template>
 
 <script>  
-import AppButton from './components/app-button.vue'
-import AppDemoButton from './components/app-demo-button.vue'
-import UserProfile from './components/user-profile.vue'
+
 
     export default {
 
@@ -35,7 +12,7 @@ import UserProfile from './components/user-profile.vue'
         data(){   //放数据的
             return{
                 
-                title: '高级组件的应用',
+                title: '路由的功能',
             
                
             };
@@ -61,20 +38,13 @@ import UserProfile from './components/user-profile.vue'
         },
 
         methods: {  //写方法的地方。
-            //与子组件传值练习
-             onTapAppButton(text){
-                console.log('on tap is',text);
-             },
-             //与子组件传值练习
-             onInitAppButton(){
-                console.log('on init app button');
-             }
+          
           
      
         },
 
       
-      components: { UserProfile , AppButton , AppDemoButton },
+      components: {  },
    
 
     }

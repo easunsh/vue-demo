@@ -20,6 +20,12 @@ import AppInput from './app-input.vue'
             };
         },
         
+        //watch是监视某数据的变化，从而进行一些操作。
+        //要监听name ，有两个参数 ，新的值和旧的值。参数取名 newName , oldName
+        watch: { 
+           
+        },
+        
         beforeCreate(){
             console.log('beforeCreate...');
 
