@@ -1,21 +1,144 @@
-button {
-    margin: 3px;
+.page {
+   padding: 32px;
+   margin: 32px;
 }
 
-.menu {
-   display: flex;
-   gap: 16px; 
-  
+.emoji {
+   font-size: 80px;
+   color: purple;
+   transition: 0.5s;
 }
 
-.menu-item {
+.hidden {
+   opacity: 0;
+}
 
-    float: left;
-   cursor: pointer;
-   margin-right: 10px;
+
+/**定义一个CSS动画，名字pulse**
+*** from 开始的状态 ***
+***scale3d 缩放的效果*******/
+
+@keyframes pulse {
+   from {
+     transform: scale3d(1,1,1); 
+   }
+
+   50% {
+      transform: scale3d( 1.5 , 1.5 , 1.5); 
+   }
+
+   to {
+      transform: scale3d( 1 , 1 , 1); 
+   }
+
 
 }
 
-.active {   
-   color: palevioletred; 
+
+
+/**定义一个类，引用pulse这个动画**
+**** animation-name: pulse; 引用的动画名***/
+.pulse {
+   animation-name: pulse;
+   animation-duration:  1s;   /***时长***/
+   animation-iteration-count: infinite; /***重复***/
+
+}
+
+
+
+/****vue自带
+进入前，进入状态的起点 , 从无到有效果
+***/
+.v-enter-from {
+   opacity: 0;
+}
+
+/****
+进入的过程
+***/
+.v-enter-active {
+   transition: 0.3;
+}
+
+/****
+进入完成
+***/
+.v-enter-to {
+   opacity: 1;
+}
+
+
+/****vue自带
+消失前，进入消失的起点 , 消失的效果
+***/
+.v-leave-from {
+   opacity: 1;
+}
+
+/****
+消失的过程
+***/
+.v-leave-active {
+   transition: 0.3;
+}
+
+/****
+消失完成
+***/
+.v-leave-to {
+   opacity: 0;
+}
+
+
+/***自定义的动画名***/
+.slide-enter-from {
+   opacity: 0;
+   transform: translateX(30px);  /**向右移动***/
+}
+
+.slide-enter-active {
+   transition: 0.3;
+}
+
+.slide-enter-to {
+   opacity: 1;
+}
+
+.slide-leave-from {
+   opacity: 1;
+   
+}
+
+.slide-leave-active {
+   transition: 0.3;
+}
+
+.slide-leave-to {
+   opacity: 0;
+   transform: translateX(30px);  /**向右移动***/
+}
+
+
+
+
+/**定义的transition name is pulse 引用pulse 动画
+ animation: pulse 1s;  名字，时长
+ 进入的时候，会应用一次 pulse 动画
+ 持续的时长1秒
+***/
+.pulse-enter-active {
+   animation: pulse 1s;
+}
+
+.pulse-leave-active {
+   animation: pulse 1s;
+}
+
+
+
+
+/** vue 自带 v-move***/
+.v-move {
+   transition: 3s;
 }
