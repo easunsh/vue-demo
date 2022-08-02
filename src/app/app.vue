@@ -1,5 +1,5 @@
 <template>
-  {{ title }}
+  <h3 @click="name = 'ninghao'">{{ name }}</h3>
   <hr />
 </template>
 
@@ -8,7 +8,7 @@ export default {
   data() {
     //放数据的
     return {
-      title: 'vue',
+      name: 'vue',
     };
   },
 
@@ -21,7 +21,7 @@ export default {
   watch: {},
 
   created() {
-    //生命周期之一
+    //生命周期
   },
 
   methods: {
