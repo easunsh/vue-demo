@@ -5,6 +5,7 @@
   <input type="password" placeholder="密码" v-model="user.password" /><br />
   <button @click="userLogin">登录</button>
   <hr />
+  <span class="colorWhite">{{ errorMsg }}</span>
 </template>
 
 <script>
@@ -17,6 +18,7 @@ export default {
         name: '',
         password: '',
       },
+      errorMsg: '',
     };
   },
 
@@ -44,9 +46,10 @@ export default {
          * 父级组件得到login-success后会进一步调用自己的方法进行处理
          */
         this.$emit('login-success', response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error.response);
-        this.errorMsg = error.message;
+        this.errorMsg = error.response.data.message;
         /**
          * 触发一个自定义的事件$emit提交给父级组件
          * response.data作为事件的数据
@@ -58,3 +61,8 @@ export default {
   },
 };
 </script>
+<style>
+.colorWhite {
+  color: white;
+}
+</style>
