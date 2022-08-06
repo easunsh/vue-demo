@@ -18,6 +18,19 @@
         placeholder="创建新内容"
       />
       <hr />
+      <!---多个用 multiple -->
+      <input
+        type="file"
+        ref="file"
+        @change="onChangeFile"
+        accept="image/png,image/jpg,image/jpeg"
+        multiple
+      />
+      <hr />
+      <div v-if="imagePreviewUrl">
+        <img :src="imagePreviewUrl" />
+      </div>
+      <hr />
       <div>{{ errorMsg }}</div>
       <div v-for="post in postsData" :key="post.id">
         <input
@@ -58,11 +71,14 @@ export default {
         name: '',
         token: '',
       },
+      file: null,
+      imagePreviewUrl: null,
     };
   },
 
   created() {
     //生命周期
+    this.getPosts();
     //获取localstorage
     const tid = localStorage.getItem('tid'); //token
     const uid = localStorage.getItem('uid'); //userid
@@ -76,8 +92,6 @@ export default {
       this.user.id = uid;
       this.user.name = uname;
     }
-
-    this.getPosts();
   },
 
   //computed一个对象，可操作下数据，
@@ -93,6 +107,81 @@ export default {
   watch: {},
 
   methods: {
+    /***
+     * 预览文件
+     */
+    createImagePreview(file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+
+      reader.onload = event => {
+        this.imagePreviewUrl = event.target.result;
+      };
+    },
+
+    /**
+     * 文件上传前准备工作
+     * event.target.files
+     */
+    onChangeFile(event) {
+      //文件上传,多个文件会是一个对象，可以通过序号访问到
+      console.log(event.target.files);
+      const file = event.target.files[0];
+
+      if (file) {
+        this.file = file;
+        //分离出数组第一个项目，得到文件名
+        this.postTitle = file.name.split('.')[0];
+
+        //生成文件预览
+        this.createImagePreview(file);
+      }
+    },
+
+    /**
+     * 文件上传主方法
+     * postID 需要在 createpost方法中传入
+     */
+    async createfile(file, postId) {
+      alert(postId);
+      //创建表单
+      const formData = new FormData();
+
+      //添加字段 file 为规定写法，要和后端一致，后面的file是用户选择的file
+      formData.append('file', file);
+
+      //上传文件
+      try {
+        const response = await apiHttpClient.post(
+          `/files?post=${postId}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${this.user.token}`,
+            },
+          },
+        );
+        // const response = await apiHttpClient({
+        //   method: 'post',
+        //   url: `/files?post=${postId}`,
+        //   formData: formData,
+        //   headers: {
+        //     Authorization: `Bearer ${this.user.token}`,
+        //   },
+        // });
+
+        //清理
+        this.file = null;
+        this.imagePreviewUrl = null;
+        this.$refs.file.value = '';
+        alert(response.data);
+      } catch (error) {
+        this.errorMsg = error.response.data.message;
+
+        alert(error.response.data.message);
+      }
+    },
+
     /**
      * 用户登录
      */
@@ -212,6 +301,15 @@ export default {
         // });
 
         console.log(response.data);
+
+        /**
+         * 上传文件后，执行一下，新增内容
+         * id 为刚刚插入的数据的id
+         * 调用createfile 上传文件到数据库
+         */
+        if (this.file) {
+          this.createfile(this.file, response.data.insertId);
+        }
         this.postTitle = '';
         this.getPosts();
       } catch (error) {
