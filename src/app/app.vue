@@ -1,22 +1,26 @@
 <template>
-  <UserLogin
-    v-if="!isLoggedIn"
-    @login-success="onLoginSuccess"
-    @login-error="onLoginError"
-  />
-  <div class="largeBg" v-if="isLoggedIn">
-    <div class="top_content" v-if="isLoggedIn">
-      欢迎回来 {{ user.name }},
-      <span @click="logOut">【退出】</span>
+  <div class="loginBg" v-if="!isLoggedIn">
+    <UserLogin
+      v-if="!isLoggedIn"
+      @login-success="onLoginSuccess"
+      @login-error="onLoginError"
+    />
+  </div>
+
+  <div class="largeBg " v-if="isLoggedIn">
+    <div class="top_content">
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box"></div>
+      <div class="box box_border_r_w box_shadow_1">
+        欢迎回来 {{ user.name }}, <span @click="logOut">【退出】</span>
+      </div>
     </div>
 
-    <div v-if="isLoggedIn" class="body_daily_content">
-      <input
-        type="text"
-        v-model="postTitle"
-        @keyup.enter="createPost"
-        placeholder="创建新内容"
-      />
+    <div class="body_daily_content" v-if="currentItem == 2">
+      <!----- @keyup.enter="createPost" -->
+      <input type="text" v-model="postTitle" placeholder="创建新内容" />
+      <button @click="createPost">创建</button>
       <hr />
       <!---多个用 multiple -->
       <input
@@ -46,14 +50,17 @@
         <hr />
       </div>
     </div>
-  </div>
 
-  <div v-if="isLoggedIn" class="bottom_content">
-    <div class="box">1</div>
-    <div class="box">2</div>
-    <div class="box_center">日记</div>
-    <div class="box">4</div>
-    <div class="box">5</div>
+    <div class="bottom_content">
+      <div
+        :class="['box', { active: currentItem === index }]"
+        @click="currentItem = index"
+        v-for="(item, index) in menuItems"
+        :key="index"
+      >
+        {{ item }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -73,6 +80,8 @@ export default {
       },
       file: null,
       imagePreviewUrl: null,
+      menuItems: ['个人', '手机', '日记', '商店', '捐赠'],
+      currentItem: 0, //当前激活的导航内容
     };
   },
 
@@ -347,28 +356,44 @@ export default {
 
 <style>
 body {
-  font-size: 12px;
-  background: url(./img/main-bg.jpg) darkblue repeat;
+  font-size: 14px;
+  /* font-size: 12px;
+  background-color: url(./img/main-bg.jpg) darkblue repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center; */
   margin: 0;
   padding: 0;
 }
 
+.loginBg {
+  background: url(./img/login-bg.jpg) no-repeat center 0px;
+  background-size: cover;
+  background-position: center 0;
+  min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
+}
+
 .largeBg {
-  background: url(./img/home-21.jpg) no-repeat center top;
-  height: 600px;
-  width: 100%;
-  padding: 0;
-  border: 1px white solid;
+  background: url(./img/home-21.jpg) no-repeat center 0px;
+  background-size: cover;
+  background-position: center 0;
+  min-height: 100vh;
+  padding: 0px;
+  margin: 0px;
+  overflow: hidden;
 }
 
 .body_daily_content {
   opacity: 90%;
   background-color: white;
   border-radius: 5px;
-  width: 300px;
+  width: 90%;
   height: auto;
   padding: 10px;
-  margin: 50px 0px 0px 10px;
+  margin: 50px auto 50px auto;
 }
 
 .top_content {
@@ -377,10 +402,7 @@ body {
   top: 0px;
   width: 100%;
   height: 40px;
-  background-color: darkblue;
-  color: white;
   text-align: center;
-
   display: flex;
   display: -webkit-flex;
   flex-wrap: nowrap;
@@ -394,6 +416,17 @@ body {
   line-height: 40px;
   text-align: center;
 }
+
+.box_shadow_1 {
+  box-shadow: 2px 2px 1px #666;
+  /**水平，垂直偏移量，模糊距离，颜色， 是否内阴影加 inset */
+}
+
+.box_border_r_w {
+  background-color: white;
+  border-radius: 10px 0px 0px 10px;
+}
+
 .bottom_content {
   width: 100%;
   height: 50px;
@@ -414,6 +447,12 @@ body {
   height: 40px;
   line-height: 40px;
   text-align: center;
+}
+
+.bottom_content .active {
+  text-shadow: 2px 1px black;
+  color: yellow;
+  font-size: 16px;
 }
 
 .bottom_content .box_center {

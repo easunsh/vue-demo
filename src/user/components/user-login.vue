@@ -1,11 +1,13 @@
 <template>
-  <h2>用户登录 user-login</h2>
-  <hr />
-  <input type="text" placeholder="用户名" v-model="user.name" /><br />
-  <input type="password" placeholder="密码" v-model="user.password" /><br />
-  <button @click="userLogin">登录</button>
-  <hr />
-  <span class="colorWhite">{{ errorMsg }}</span>
+  <div class="login-zone">
+    <h1 class="font_shadow">平行宇宙-岚</h1>
+
+    <input type="text" placeholder="用户名" v-model="user.name" /><br />
+    <input type="password" placeholder="密码" v-model="user.password" /><br />
+    <button @click="userLogin" class="login_btn">登录</button>
+
+    <div class="error_zone font_shadow">{{ errorMsg }}</div>
+  </div>
 </template>
 
 <script>
@@ -61,8 +63,49 @@ export default {
   },
 };
 </script>
-<style>
-.colorWhite {
+<style scoped>
+body {
+  text-align: center;
+}
+
+.font_shadow {
+  text-shadow: 2px 1px black;
+}
+.login-zone {
   color: white;
+  text-align: center;
+  width: 80%;
+  margin: 60px auto 0px auto;
+}
+
+.login-zone input[type='text'],
+input[type='password'] {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 5px;
+  border: 0px;
+  text-indent: 10px;
+  margin: 0px 0px 10px 0px;
+  background-color: white;
+}
+
+.login_btn {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: orange;
+  margin: 10px auto;
+  border-radius: 5px;
+  text-shadow: 2px 2px black;
+}
+
+.error_zone {
+  height: 40px;
+  line-height: 40px;
+  color: yellow;
 }
 </style>
