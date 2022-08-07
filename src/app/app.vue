@@ -32,7 +32,7 @@
       />
       <hr />
       <div v-if="imagePreviewUrl">
-        <img :src="imagePreviewUrl" />
+        <img :src="imagePreviewUrl" width="200" />
       </div>
       <hr />
       <div>{{ errorMsg }}</div>
