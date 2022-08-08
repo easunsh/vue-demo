@@ -1,12 +1,13 @@
 <template>
   <div class="login-zone">
-    <h1 class="font_shadow">平行宇宙-岚</h1>
+    <h1 class="font_shadow">平行宇宙の依桑国度</h1>
 
     <input type="text" placeholder="用户名" v-model="user.name" /><br />
     <input type="password" placeholder="密码" v-model="user.password" /><br />
     <button @click="userLogin" class="login_btn">登录</button>
 
     <div class="error_zone font_shadow">{{ errorMsg }}</div>
+    <div class="copyright">id.YSGD-20220808</div>
   </div>
 </template>
 
@@ -85,6 +86,8 @@ input[type='password'] {
   line-height: 40px;
   border-radius: 5px;
   border: 0px;
+  font-size: 16px;
+  font-weight: 600;
   text-indent: 10px;
   margin: 0px 0px 10px 0px;
   background-color: white;
@@ -107,5 +110,13 @@ input[type='password'] {
   height: 40px;
   line-height: 40px;
   color: yellow;
+}
+
+.copyright {
+  color: white;
+  font-size: 10px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 30px;
 }
 </style>
