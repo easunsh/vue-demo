@@ -205,7 +205,7 @@ export default {
               Authorization: `Bearer ${this.user.token}`,
             },
 
-            //上传文件进度
+            //上传文件进度百分比
             onUploadProgress: event => {
               console.log(event);
               const { loaded, total } = event;
