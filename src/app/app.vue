@@ -31,6 +31,21 @@
         multiple
       />
       <hr />
+      <div v-if="imageUploadProgress">
+        <span class="image-upload-progress">{{
+          imageUploadProgress + '%'
+        }}</span>
+      </div>
+      <div
+        :class="['drag-zone', { drag_active: dragZoneActive }]"
+        @dragover.prevent
+        @drop.prevent="onDropDragZone"
+        @dragenter="dragZoneActive = true"
+        @dragleave="dragZoneActive = false"
+      >
+        <div>把图像拖拽至此</div>
+      </div>
+
       <div v-if="imagePreviewUrl">
         <img :src="imagePreviewUrl" width="200" />
       </div>
@@ -82,6 +97,8 @@ export default {
       imagePreviewUrl: null,
       menuItems: ['个人', '手机', '日记', '商店', '捐赠'],
       currentItem: 0, //当前激活的导航内容
+      imageUploadProgress: null, //上传文件的进度
+      dragZoneActive: false, //拖拽效果用
     };
   },
 
@@ -116,6 +133,25 @@ export default {
   watch: {},
 
   methods: {
+    /**
+     * 文件拖拽触发
+     */
+    onDropDragZone(event) {
+      //console.log(event.dataTransfer.files);
+      const file = event.dataTransfer.files[0]; //第一个文件
+      if (file) {
+        this.file = file;
+      }
+
+      //设置内容标题
+      this.postTitle = file.name.split('.')[0];
+
+      //生成预览图
+      this.createImagePreview(file);
+
+      //移除拖拽框的激活样式
+      this.dragZoneActive = false;
+    },
     /***
      * 预览文件
      */
@@ -168,6 +204,14 @@ export default {
             headers: {
               Authorization: `Bearer ${this.user.token}`,
             },
+
+            //上传文件进度
+            onUploadProgress: event => {
+              console.log(event);
+              const { loaded, total } = event;
+              //得到一个百分比
+              this.imageUploadProgress = Math.round((loaded * 100) / total);
+            },
           },
         );
         // const response = await apiHttpClient({
@@ -183,7 +227,8 @@ export default {
         this.file = null;
         this.imagePreviewUrl = null;
         this.$refs.file.value = '';
-        alert(response.data);
+        this.imageUploadProgress = null;
+        //alert(response.data);
       } catch (error) {
         this.errorMsg = error.response.data.message;
 
@@ -366,6 +411,27 @@ body {
   padding: 0;
 }
 
+.image-upload-progress {
+  font-size: 32px;
+  font-weight: 300;
+}
+
+.drag-zone {
+  width: 200px;
+  height: 100px;
+  background: #888;
+  color: black;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.drag_active {
+  background: orange;
+  color: darkblue;
+}
+
 .loginBg {
   background: url(./img/login-bg.jpg) no-repeat center 0px;
   background-size: cover;
@@ -390,9 +456,9 @@ body {
   opacity: 90%;
   background-color: white;
   border-radius: 5px;
-  width: 90%;
+  width: 100%;
   height: auto;
-  padding: 10px;
+  padding: 5px;
   margin: 50px auto 50px auto;
 }
 
