@@ -1,4 +1,4 @@
-# ninghao-vue
+# 平行宇宙の依桑国度 
 
 ## Project setup
 ```

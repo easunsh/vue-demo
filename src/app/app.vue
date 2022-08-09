@@ -8,8 +8,13 @@ export default {
   data() {
     //放数据的
     return {
-      title: 'vue',
+      title: '平行宇宙の依桑国度',
     };
+  },
+
+  created() {
+    //生命周期之一
+    console.log(this.$store.state);
   },
 
   //computed一个对象，可操作下数据，
@@ -20,10 +25,6 @@ export default {
   //要监听name ，有两个参数 ，新的值和旧的值。参数取名 newName , oldName
   watch: {},
 
-  created() {
-    //生命周期之一
-  },
-
   methods: {
     //写方法的地方。
   },
@@ -32,7 +33,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 body {
   font-size: 12px;
 }
