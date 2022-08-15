@@ -2,6 +2,7 @@
   {{ title }}
   <hr />
   <router-link to="/">首页</router-link>
+  <router-link to="/posts">日志</router-link>
   <router-view></router-view>
 </template>
 
