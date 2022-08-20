@@ -7,6 +7,7 @@
 </template>
 
 <script>
+import { socket } from './app.service';
 export default {
   data() {
     //放数据的
@@ -16,6 +17,17 @@ export default {
   },
 
   created() {
+    /**
+     * 建立连接后会有一个connect事件
+     * 监听它
+     * 服务端会给每一个客户端连接分配一个ID
+     */
+    socket.on('connect', () => {
+      console.log('connect', socket.id);
+
+      //自己去触发一个事件给服务器
+      socket.emit('greet', `你好服务器，我是${socket.id}号连接`);
+    });
     //生命周期之一
     console.log(this.$store.state);
   },
